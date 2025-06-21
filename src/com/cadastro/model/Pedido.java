@@ -6,7 +6,7 @@ public class Pedido {
     private Cliente cliente;
     private StatusPedido status;
 
-    Pedido(int numero, Cliente cliente, StatusPedido status){
+    public Pedido(int numero, Cliente cliente, StatusPedido status){
         this.numero = numero;
         this.cliente = cliente;
         this.status = status;
@@ -38,7 +38,7 @@ public class Pedido {
 
     @Override
     public String toString() {
-        return "Cliente: " + getCliente().getNome() +
+        return "\nCliente: " + getCliente().getNome() +
                 "\nNúmero do pedido: " + getNumero() +
                 "\nStatus: " + getStatus();
     }
