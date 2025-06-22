@@ -26,4 +26,9 @@ public class Cliente extends Pessoa{
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "\nID: " + getId() + "\nNome: " + getNome() + "\nCPF: " + getCpf() + "\nEmail: " + getEmail();
+    }
 }
