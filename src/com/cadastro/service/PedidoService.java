@@ -9,6 +9,7 @@ import java.util.List;
 public class PedidoService {
 
     private List<Pedido> pedidos = new ArrayList<>();
+    private static int proximoNumeroPedido = 1;
 
     public void adicionarPedido(Pedido pedido){
         pedidos.add(pedido);
@@ -26,10 +27,14 @@ public class PedidoService {
         Pedido pedido = pedidos.stream().filter(p -> p.getNumero() == numero).findFirst().orElse(null);
 
         if(pedido == null){
-            System.out.println("Pedido não encontrado!");
+            System.out.println("❌ Pedido não encontrado!");
         } else {
             pedido.setStatus(novoStatus);
-            System.out.println("\nStatus do pedido (" + pedido.getNumero() + ") atualizado para: " + novoStatus);
+            System.out.println("\n✅ Status do pedido (" + pedido.getNumero() + ") atualizado para: " + novoStatus);
         }
+    }
+
+    public int gerarNovoNumeroPedido(){
+        return proximoNumeroPedido++;
     }
 }

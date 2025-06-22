@@ -6,7 +6,6 @@ import com.cadastro.model.StatusPedido;
 import com.cadastro.service.ClienteService;
 import com.cadastro.service.PedidoService;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -43,15 +42,15 @@ public class Main {
                     novoPedido();
                     break;
                 case 3:
-                    if(clienteService.listarClientes().size() == 0){
-                        System.out.println("Não há clientes cadastrados");
+                    if(clienteService.listarClientes().isEmpty()){
+                        System.out.println("❌ Não há clientes cadastrados");
                     } else {
                         clienteService.listarClientes().forEach(System.out::println);
                     }
                     break;
                 case 4:
-                    if(pedidoService.listarPedidos().size() == 0){
-                        System.out.println("Não há pedidos!");
+                    if(pedidoService.listarPedidos().isEmpty()){
+                        System.out.println("❌ Não há pedidos!");
                     } else {
                         pedidoService.listarPedidos().forEach(System.out::println);
                     }
@@ -93,11 +92,9 @@ public class Main {
             email = sc.nextLine();
         }while(email.isEmpty());
 
-        Random random = new Random();
-        int id = 1000 + random.nextInt(9000);
+        int id = clienteService.gerarNovoId();
 
         clienteService.adicionarCliente(new Cliente(nome, cpf, id, email));
-        System.out.println("Cliente cadastrado com sucesso!");
     }
 
     static void novoPedido(){
@@ -111,21 +108,20 @@ public class Main {
         Cliente c = clienteService.buscarClientePorId(id);
 
         if(c == null){
-            System.out.println("Cliente não encontrado com ID: " + id);
+            System.out.println("❌ Cliente não encontrado com ID: " + id);
             return;
         }
 
-        Random random = new Random();
-        int numero = 1000 + random.nextInt(9000);
+        int numero = pedidoService.gerarNovoNumeroPedido();
 
         pedidoService.adicionarPedido(new Pedido(numero, c, StatusPedido.PENDENTE));
-        System.out.println("Pedido criado com sucesso!");
+        System.out.println("✅ Pedido número (" + numero + ") criado com sucesso!");
     }
 
     static void buscarPedido(){
 
-        if(pedidoService.listarPedidos().size() == 0){
-            System.out.println("Não há pedidos!");
+        if(pedidoService.listarPedidos().isEmpty()){
+            System.out.println("❌ Não há pedidos!");
             return;
         }
 
@@ -144,13 +140,19 @@ public class Main {
         }while(option != 1 && option != 2 && option != 3 && option != 4);
 
         if(pedidoService.buscarPedidosPorStatus(status[option - 1]).isEmpty()){
-            System.out.println("Não há pedidos com status: " + status[option - 1]);
+            System.out.println("❌ Não há pedidos com status: " + status[option - 1]);
         } else {
             pedidoService.buscarPedidosPorStatus(status[option - 1]).forEach(System.out::println);
         }
     }
 
     static void atualizarStatus(){
+
+        if(pedidoService.listarPedidos().isEmpty()){
+            System.out.println("❌ Não há pedidos");
+            return;
+        }
+
         System.out.println("Digite o número do pedido: ");
         int numero = sc.nextInt();
         int option;
