@@ -27,7 +27,7 @@ public class PedidoService {
         Pedido pedido = pedidos.stream().filter(p -> p.getNumero() == numero).findFirst().orElse(null);
 
         if(pedido == null){
-            System.out.println("❌ Pedido não encontrado!");
+            System.out.println("\n❌ Pedido não encontrado!");
         } else {
             pedido.setStatus(novoStatus);
             System.out.println("\n✅ Status do pedido (" + pedido.getNumero() + ") atualizado para: " + novoStatus);

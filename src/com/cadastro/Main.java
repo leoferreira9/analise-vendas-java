@@ -32,38 +32,47 @@ public class Main {
                             "\n7) Sair"
             );
 
-            option = sc.nextInt();
+            String entrada = sc.nextLine();
 
-            switch (option){
-                case 1:
-                    criarCliente();
-                    break;
-                case 2:
-                    novoPedido();
-                    break;
-                case 3:
-                    if(clienteService.listarClientes().isEmpty()){
-                        System.out.println("❌ Não há clientes cadastrados");
-                    } else {
-                        clienteService.listarClientes().forEach(System.out::println);
-                    }
-                    break;
-                case 4:
-                    if(pedidoService.listarPedidos().isEmpty()){
-                        System.out.println("❌ Não há pedidos!");
-                    } else {
-                        pedidoService.listarPedidos().forEach(System.out::println);
-                    }
-                    break;
-                case 5:
-                    buscarPedido();
-                    break;
-                case 6:
-                    atualizarStatus();
-                    break;
-                case 7:
-                    System.out.println("Encerrando...");
-                    break;
+            if(entrada.matches("\\d+")){
+                option = Integer.parseInt(entrada);
+
+                switch (option){
+                    case 1:
+                        criarCliente();
+                        break;
+                    case 2:
+                        novoPedido();
+                        break;
+                    case 3:
+                        if(clienteService.listarClientes().isEmpty()){
+                            System.out.println("\n❌ Não há clientes cadastrados");
+                        } else {
+                            clienteService.listarClientes().forEach(System.out::println);
+                        }
+                        break;
+                    case 4:
+                        if(pedidoService.listarPedidos().isEmpty()){
+                            System.out.println("\n❌ Não há pedidos!");
+                        } else {
+                            pedidoService.listarPedidos().forEach(System.out::println);
+                        }
+                        break;
+                    case 5:
+                        buscarPedido();
+                        break;
+                    case 6:
+                        atualizarStatus();
+                        break;
+                    case 7:
+                        System.out.println("\nEncerrando...");
+                        break;
+                    default:
+                        System.out.println("\nOpção inválida!");
+                }
+            } else {
+                System.out.println("\n⚠ Entrada inválida. Digite um número.");
+                option = -1;
             }
 
         } while(option != 7);
@@ -77,18 +86,18 @@ public class Main {
         String email;
 
         do{
-            System.out.println("Digite seu nome: ");
+            System.out.print("Digite seu nome: ");
             sc.nextLine();
              nome = sc.nextLine();
         }while(nome.isEmpty());
 
         do{
-            System.out.println("Digite seu CPF: ");
+            System.out.print("Digite seu CPF: ");
             cpf = sc.nextLine();
         }while(cpf.isEmpty());
 
         do{
-            System.out.println("Digite seu Email: ");
+            System.out.print("Digite seu Email: ");
             email = sc.nextLine();
         }while(email.isEmpty());
 
@@ -101,27 +110,27 @@ public class Main {
         int id = 0;
 
         do{
-            System.out.println("Informe o ID do cliente dono do pedido: ");
+            System.out.print("Informe o ID do cliente dono do pedido: ");
             id = sc.nextInt();
         } while(id == 0);
 
         Cliente c = clienteService.buscarClientePorId(id);
 
         if(c == null){
-            System.out.println("❌ Cliente não encontrado com ID: " + id);
+            System.out.println("\n❌ Cliente não encontrado com ID: " + id);
             return;
         }
 
         int numero = pedidoService.gerarNovoNumeroPedido();
 
         pedidoService.adicionarPedido(new Pedido(numero, c, StatusPedido.PENDENTE));
-        System.out.println("✅ Pedido número (" + numero + ") criado com sucesso!");
+        System.out.println("\n✅ Pedido número (" + numero + ") criado com sucesso!");
     }
 
     static void buscarPedido(){
 
         if(pedidoService.listarPedidos().isEmpty()){
-            System.out.println("❌ Não há pedidos!");
+            System.out.println("\n❌ Não há pedidos!");
             return;
         }
 
@@ -140,7 +149,7 @@ public class Main {
         }while(option != 1 && option != 2 && option != 3 && option != 4);
 
         if(pedidoService.buscarPedidosPorStatus(status[option - 1]).isEmpty()){
-            System.out.println("❌ Não há pedidos com status: " + status[option - 1]);
+            System.out.println("\n❌ Não há pedidos com status: " + status[option - 1]);
         } else {
             pedidoService.buscarPedidosPorStatus(status[option - 1]).forEach(System.out::println);
         }
@@ -149,11 +158,11 @@ public class Main {
     static void atualizarStatus(){
 
         if(pedidoService.listarPedidos().isEmpty()){
-            System.out.println("❌ Não há pedidos");
+            System.out.println("\n❌ Não há pedidos");
             return;
         }
 
-        System.out.println("Digite o número do pedido: ");
+        System.out.print("Digite o número do pedido: ");
         int numero = sc.nextInt();
         int option;
 

@@ -18,7 +18,7 @@ public class ClienteService {
             System.out.println("Email já cadastrado!");
         } else {
             clientes.add(cliente);
-            System.out.println("✅ Cliente cadastrado com sucesso! ID: " + cliente.getId());
+            System.out.println("\n✅ Cliente cadastrado com sucesso! ID: " + cliente.getId());
         }
     }
 
